@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>upload Images</title>
+    <style>
+        html,body,div,input,img{
+            margin: 0;padding: 0;
+        }
+        #app{
+            border: 1px solid #ccc;
+            width: 800px;
+            height: 400px;
+            margin: 50px auto;
+            border-radius: 5px;
+        }
+        #upload_input{
+            opacity: 0;
+        }
+        .top_content div{
+            border: 1px dashed #ccc;
+            height: 120px;
+            border-radius: 5px;
+            float: left;
+            margin: 4%;
+        }
+        .left{
+            width: 30%;
+            background: url("./img/upload.png") no-repeat center;
+            background-size:40%;
+            line-height: 120px;
+        }
+        .right{
+            width: 50%;
+        }
+        .middle_content{
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            /*height: 30px;*/
+            /*line-height:30px;*/
+        }
+        .middle_content>p{
+            margin-left: 4%;
+        }
+        .clearFix{
+            zoom: 1;
+        }
+        .clearFix:after{
+            content: "";
+            display: block;
+            width: 0;
+            height: 0;
+            clear: both;
+        }
+        .imgBox{
+            border: 1px solid #ccc;
+            margin: 5px;
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-top: 20px;
+            margin-left: 4%;
+        }
+        .imgBox>span{
+            position: absolute;
+            top: 0;
+            width: 120px;
+            height: 30px;
+            line-height: 30px;
+            background: rgba(207,207,207,0.5);
+        }
+        .imgBox>span>img{
+            float: right;
+            height: 30px;
+        }
+        .imgBox>img{
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin:auto;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="top_content clearFix">
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
+    <div class="middle_content">
+        <p>选中1张图片，共55.5kb</p>
+    </div>
+    <div class="foot_content">
+        <div class="imgBox">
+            <img src="" id="img">
+            <span class="img_name">
+                4.jpg
+                <img src="./img/delete.png">
+            </span>
+
+        </div>
+    </div>
+    <input type="file" multiple id="upload_input">
+</div>
+</body>
+<script src="./js/vue.js"></script>
+<script>
+    let imageLists = [];
+    let upload_btn = document.getElementsByClassName("left")[0];
+    let upload_input = document.getElementById("upload_input");
+    let foot_content = document.getElementsByClassName("foot_content")[0];
+    let img = document.getElementById("img")
+    upload_btn.onclick=function () {
+        upload_input.click();
+    }
+    upload_input.onchange=function (e) {
+       let lists = e.target.files;
+       //判断是否为图片类型
+        if(lists[0].type.indexOf("image")<0 || !lists[0].size) {
+            alert("请上传图片类型文件")
+            return;
+        }
+
+        imageLists = [].slice.call(lists);
+        showImage(imageLists);
+    }
+    function showImage(arr) {
+        let newArr = [];
+        let size = 0;
+        arr.forEach((item)=>{
+            let reader = new FileReader();
+            reader.readAsDataURL(item);
+            reader.onload = function(){
+                item.src = this.result;
+                img.src = item.src;
+            }
+            newArr.push(`<span>${item.name}</span>`);
+            size+=item.size;
+        })
+        console.log(size/1024+"kb");
+    }
+</script>
+</html>

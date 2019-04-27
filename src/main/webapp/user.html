@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试用户</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <table border="1">
+        <tr>
+            <td>序号</td>
+            <td>用户名</td>
+            <td>姓名</td>
+            <td>密码</td>
+        </tr>
+        <tr v-for="u in userList">
+            <td>{{u.id}}</td>
+            <td>{{u.username}}</td>
+            <td>{{u.name}}</td>
+            <td>{{u.password}}</td>
+        </tr>
+    </table>
+</div>
+<script src="/js/vue.js"></script>
+<script src="/js/axios-0.18.0.js"></script>
+<script src="/js/user.js"></script>
+</body>
+</html>
